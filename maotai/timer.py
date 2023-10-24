@@ -53,12 +53,11 @@ class Timer(object):
         从京东服务器获取时间毫秒
         :return:
         """
-        url = 'https://api.m.jd.com/client.action?functionId=queryMaterialProducts&client=wh5'
-        headers={'User-Agent':"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.55 Safari/537.36 Edg/96.0.1054.41"}
-        ret = requests.get(url,headers=headers).text
-        js = json.loads(ret)
-        print(ret)
-        return int(js["currentTime2"])
+        url = 'https://api.m.jd.com'
+        resp = requests.get(url, verify=False)
+        jd_timestamp = int(resp.headers.get('X-API-Request-Id')[-13:])
+        print(jd_timestamp)
+        return jd_timestamp
 
     def local_time(self):
         """
